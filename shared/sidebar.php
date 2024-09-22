@@ -25,12 +25,17 @@
                 <span>Booking</span></a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="../customer/view.php">
-                    <i class="fas fa-users"></i>
-                <span>Customer</span></a>
-        </li>
-
+        <?php 
+            if ($_SESSION['role_id'] == 1) { 
+                ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="../customer/view.php">
+                            <i class="fas fa-users"></i>
+                        <span>Customer</span></a>
+                </li>
+                <?php 
+            }
+        ?>
         <li class="nav-item">
             <a class="nav-link" href="../about/view.php">
                 <i class="fas fa-info-circle"></i>

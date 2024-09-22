@@ -1,42 +1,50 @@
 <?php
-if (!isset($_SESSION)) {
-    session_start();
-}
-
-// Mengecek jika pengguna sudah terautentikasi, arahkan ke index.php
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    header("Location: ../index.php"); // Arahkan ke index.php yang satu tingkat lebih tinggi
-    exit;
-}
-
+session_start(); // Start session if not already started
 include_once '../config/dadatabase.php';
 
+$response = []; // Array to store response for AJAX
 
-
-// Proses login sederhana (misalnya menggunakan form POST)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Check if POST data is not empty
     if (!empty($_POST)) {
         $email    = mysqli_real_escape_string($db_connection, $_POST['email']);
-        $password    = mysqli_real_escape_string($db_connection, $_POST['password']);
+        $password = mysqli_real_escape_string($db_connection, $_POST['password']);
     }
 
-    $login  = mysqli_query($db_connection, "SELECT * FROM users WHERE email='" . $email . "' AND password='" . $password . "'") or die(mysqli_errno($db_connection));
-    
-    $row    = mysqli_num_rows($login);
+    // Query to find user by email
+    $query  = "SELECT * FROM users WHERE email='$email'";
+    $result = mysqli_query($db_connection, $query) or die(mysqli_error($db_connection));
 
-     if ($row > 0) {
+    // Check if user exists
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
 
-        $row = mysqli_fetch_array($login);
-        $_SESSION['loggedin'] = true;
-        $_SESSION['role_id'] = $row['role_id'];
-        $_SESSION['role_code'] = $row['role_id'] == 1 ? "Administrator" : "User";
-        $_SESSION['name']  = $row['name'];
-        $_SESSION['email']  = $row['email'];
-        $_SESSION['username'] = $username;
-        $_SESSION['id'] = $row['id'];
-        header("Location: ../index.php");
+        // Verify password
+        if (password_verify($password, $row['password'])) {
+            // Password is correct, set session variables
+            $_SESSION['loggedin'] = true;
+            $_SESSION['role_id'] = $row['role_id'];
+            $_SESSION['role_code'] = $row['role_id'] == 1 ? "Administrator" : ($row['role_id'] == 2 ? 'User' : 'Customer');
+            $_SESSION['name']  = $row['name'];
+            $_SESSION['email']  = $row['email'];
+            $_SESSION['username'] = $row['username'];
+            $_SESSION['id'] = $row['id'];
+
+            // Success response
+            $response['status'] = 'success';
+            $response['message'] = 'Login successful';
+        } else {
+            // Incorrect password
+            $response['status'] = 'error';
+            $response['message'] = 'Password salah!';
+        }
     } else {
-         $error = "Username atau password salah!";
+        // No user found with that email
+        $response['status'] = 'error';
+        $response['message'] = 'Username atau password salah!';
     }
+    
+    // Return JSON response
+    echo json_encode($response);
 }
 ?>

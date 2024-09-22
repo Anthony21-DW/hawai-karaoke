@@ -2,7 +2,7 @@
 
 let customerTable;
 $(document).ready(function () { 
-  
+  moment.locale('id');
   // menampilkan data menggunakan dataTableJs serverside
   customerTable = $("#tableCustomer").DataTable({
       "processing": true,
@@ -19,7 +19,6 @@ $(document).ready(function () {
               }
           },
           { "data": "name" },
-          { "data": "username" },
           { "data": "email" },
           {
           "data": "role_id", 'render': function (data) {
@@ -27,11 +26,18 @@ $(document).ready(function () {
               return "User";
             }
           },
-          { "data": "created_at" },
+        {
+          "data": "created_at", "render": function (data) {
+            return `${moment(data).format('D MMMM YYYY')}  <small class="text-muted">${moment(data).format('HH:mm')}</small>`;
+          }
+        },
           {
             "render": function (data, type, row) {
                 
-                return `<button data-id="${row.id}" class="btn btn-success btn-sm me-2" onclick="editCustomer(this,event)">Edit</button> <button data-id="${row.id}" class="btn btn-danger btn-sm" onclick="deleteCustomer(this,event)">Hapus</button>`
+              return `
+                <button data-toggle="tooltip" title="Lihat Detail" data-id="${row.id}" class="btn btn-info btn-sm me-2" onclick="detailCustomer(this,event)"> <i class="fas fa-eye"></i> </button> 
+                <button data-toggle="tooltip" title="Edit Customer" data-id="${row.id}" class="btn btn-success btn-sm me-2" onclick="editCustomer(this,event)"> <i class="fas fa-user-edit"></i> </button> 
+                <button data-toggle="tooltip" title="Hapus Customer" data-id="${row.id}" class="btn btn-danger btn-sm" onclick="deleteCustomer(this,event)"> <i class="fas fa-trash"></i> </button>`
           }
         }
     ],
@@ -90,7 +96,7 @@ $(document).ready(function () {
               
           }
       });
-  });
+ });
 
  $('#isChangePassword').click(function() {
         if ($('#isChangePassword').is(':checked')) {
@@ -214,6 +220,35 @@ window.editCustomer = (input, evt) => {
             $('#edit-role_id').val(user.role_id);
             
             $("#formEditCustomer").modal('show');
+
+        }
+    });
+}
+
+window.detailCustomer = (input, evt) => {
+  const userId = $(input).data('id'); 
+  $("#modaShowDetail").modal('show');
+    $.ajax({
+        url: 'update_customer.php',
+        method: 'GET',
+        data: { id: userId },
+        dataType: 'json',
+        success: function(user) {
+            $('#address-d').val(user.address);
+            $('#phone-d').val(user.phone);
+            $('#birthyear-d').val(user.birthyear);
+            $('#email-d').val(user.email);
+            $('#name-d').val(user.name);
+            $('#username-d').val(user.username);
+            $('#role-d').val(user.role_id == 1 ? "Administrator" : (user.role_id == 2 ? "Kasir" : "Customer"));
+            if (user.gender == "L") {
+              $("#label-gender").text("Pria");
+            } else if (user.gender == "P") {
+              $("#label-gender").text("Wanita");
+            } else {
+              $("#label-gender").text("");
+            }
+            $("#modaShowDetail").modal('show');
 
         }
     });

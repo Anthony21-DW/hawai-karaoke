@@ -52,7 +52,6 @@ include('dataTable.php');
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>Username</th>
                                             <th>Email</th>
                                             <th>Role</th>
                                             <th>Created At</th>
@@ -79,6 +78,7 @@ include('dataTable.php');
         <i class="fas fa-angle-up"></i>
     </a> 
 
+    <!-- Modal untuk Tambah Customer -->
     <div class="modal fade" id="formAddCustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-center" role="document">
@@ -125,9 +125,10 @@ include('dataTable.php');
         </div>
     </div>
 
+    <!-- Modal untuk Edit Customer -->
     <div class="modal fade" id="formEditCustomer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog modal-center" role="document">
+        <div class="modal-dialog modal-center" role="document">
             <form id="formEdit">
                 <input type="hidden" id="edit-id" name="id">
                 <div class="modal-content">
@@ -173,8 +174,71 @@ include('dataTable.php');
                     </div>
                 </div>
             </form>
-            </div>
         </div>
+    </div>
+
+    <!-- Modal untuk Edit Customer -->
+    <div class="modal fade" id="modaShowDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+        <div class="modal-dialog modal-center modal-lg" role="document">
+              <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Customer</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-1">
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <input type="text" class="form-control" id="name-d" name="name-d"
+                                               readonly >
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="phone-d" name="phone-d"
+                                                 inputmode="number" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 mb-3 mb-sm-0 d-flex justify-content-between align-items-center">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="gender-d" id="gender-d" checked readonly>
+                                                <label class="form-check-label" for="gender-d" id="label-gender">
+                                                
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="text" class="form-control" id="role-d" name="role-d"
+                                                 inputmode="number" readonly >
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="birthyear-d" name="birthyear-d"
+                                                 inputmode="number" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="username-d" name="username-d" readonly
+                                            > 
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" id="email-d" name="email-d" readonly
+                                            >
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea type="text" class="form-control" id="address-d" name="address-d" readonly
+                                         rows="3" ></textarea>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
 
     <?php include_once '../shared/js.php';?>
     <script src="./script.js"></script>
