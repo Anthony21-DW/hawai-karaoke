@@ -43,7 +43,7 @@ include('dataTable.php');
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold text-primary">Data Customer</h6>
-                            <button class="btn btn-primary btn-md me-2" data-toggle="modal" data-target="#formAddCustomer"> <i class="fas fa-plus-circle"></i> Tambah Customer</button>
+                            <button class="btn btn-primary btn-md me-2" data-toggle="modal" data-target="#formAddCustomer"> <i class="fas fa-plus-circle"></i> Tambah User</button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -85,7 +85,7 @@ include('dataTable.php');
         <form id="formCreate">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Customer</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah User</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -112,8 +112,27 @@ include('dataTable.php');
                         <select class="form-control" name="role_id" id="role_id" required>
                             <option value="" disabled selected>-- pilih role --</option>
                             <option value="1">Administrator</option>
-                            <option value="2">User</option>
+                            <option value="2">Kasir</option>
+                            <option value="3">Customer</option>
                         </select>
+                    </div>
+                    <div id="parent-for-customer" style="display: none;">
+                        <div class="form-group">
+                            <label for="gender">Jenis kelamin<sup class="text-danger">*</sup></label>
+                            <select class="form-control" name="gender" id="gender" >
+                                <option value="" disabled selected>-- pilih jenik kelamin --</option>
+                                <option value="L">Pria</option>
+                                <option value="P">Wanita</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">No.Hp<sup class="text-danger">*</sup></label>
+                            <input  type="text" class="form-control" id="phone" name="phone" placeholder="masukan no hp" inputmode="number">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Alamat<sup class="text-danger">*</sup></label>
+                            <textarea  type="text" class="form-control" id="address" name="address" placeholder="masukan alamat customer" rows="3"></textarea>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -177,7 +196,7 @@ include('dataTable.php');
         </div>
     </div>
 
-    <!-- Modal untuk Edit Customer -->
+    <!-- Modal untuk Detail Customer -->
     <div class="modal fade" id="modaShowDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
         <div class="modal-dialog modal-center modal-lg" role="document">

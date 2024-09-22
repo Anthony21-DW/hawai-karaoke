@@ -148,6 +148,15 @@ $(document).ready(function () {
           }
       });
  });
+  
+$("#role_id").on('change', function () {
+  const value = $(this).val();
+  if (value == '3') {
+    $("#parent-for-customer").fadeIn(100);
+  } else {
+    $("#parent-for-customer").fadeOut(100);
+  }
+})
     
 });
 
