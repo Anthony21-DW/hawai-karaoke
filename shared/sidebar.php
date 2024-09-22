@@ -26,7 +26,7 @@
         </li>
 
         <?php 
-            if ($_SESSION['role_id'] == 1) { 
+            if ($_SESSION['role_id'] != 3) { 
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="../customer/view.php">

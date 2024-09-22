@@ -1,6 +1,7 @@
 'use strict'
 
 let customerTable;
+const ROLE = $("#role-code").val();
 $(document).ready(function () { 
   moment.locale('id');
   // menampilkan data menggunakan dataTableJs serverside
@@ -9,7 +10,13 @@ $(document).ready(function () {
       "serverSide": true,
       "ajax": {
           "url": "dataTable.php",
-          "type": "POST"
+          "type": "POST",
+          "dataSrc": function (json) {
+              if (ROLE == '1') return json.data;
+              const filteredUsers = json.data.filter(user => user.role_id == 3);
+              return filteredUsers;
+            }
+          
       },
       "columns": [
           { 
@@ -23,7 +30,8 @@ $(document).ready(function () {
           {
           "data": "role_id", 'render': function (data) {
               if (data == 1) return "Administrator";
-              return "User";
+              if (data == 2) return "Kasir";
+              return "Customer";
             }
           },
         {
@@ -33,11 +41,19 @@ $(document).ready(function () {
         },
           {
             "render": function (data, type, row) {
-                
-              return `
+              
+              if (ROLE == '1') {
+                return `
                 <button data-toggle="tooltip" title="Lihat Detail" data-id="${row.id}" class="btn btn-info btn-sm me-2" onclick="detailCustomer(this,event)"> <i class="fas fa-eye"></i> </button> 
                 <button data-toggle="tooltip" title="Edit Customer" data-id="${row.id}" class="btn btn-success btn-sm me-2" onclick="editCustomer(this,event)"> <i class="fas fa-user-edit"></i> </button> 
-                <button data-toggle="tooltip" title="Hapus Customer" data-id="${row.id}" class="btn btn-danger btn-sm" onclick="deleteCustomer(this,event)"> <i class="fas fa-trash"></i> </button>`
+                <button data-toggle="tooltip" title="Hapus Customer" data-id="${row.id}" class="btn btn-danger btn-sm" onclick="deleteCustomer(this,event)"> <i class="fas fa-trash"></i> </button>`;
+              } else {
+                    return `
+                <button data-toggle="tooltip" title="Lihat Detail" data-id="${row.id}" class="btn btn-info btn-sm me-2" onclick="detailCustomer(this,event)"> <i class="fas fa-eye"></i> </button> 
+                <button data-toggle="tooltip" title="Edit Customer" data-id="${row.id}" class="btn btn-success btn-sm me-2" onclick="editCustomer(this,event)"> <i class="fas fa-user-edit"></i> </button> 
+                `;
+              }
+              
           }
         }
     ],

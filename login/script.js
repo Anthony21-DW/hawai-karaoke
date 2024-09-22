@@ -3,7 +3,7 @@
 $(document).ready(function () {
    $('#formLogin').submit(function(e) {
         e.preventDefault(); // Prevent form from submitting the traditional way
-
+        $('button').attr('disabled', true);
         $.ajax({
             url: 'controller.php', // File PHP untuk login
             type: 'POST',
@@ -11,12 +11,15 @@ $(document).ready(function () {
             dataType: 'json',
             success: function(response) {
                 if (response.status === 'success') {
-                    // Login berhasil, redirect ke halaman yang diinginkan
                      window.location.href = "/hawai-karaoke/index.php";
                 } else {
-                    // Tampilkan pesan error
-                    $('#errorMessage').text(response.message);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Login Gagal",
+                        text: response.message,
+                    });
                 }
+                $('button').attr('disabled', false);
             },
             error: function(xhr, status, error) {
                 console.error('AJAX error:', status, error);

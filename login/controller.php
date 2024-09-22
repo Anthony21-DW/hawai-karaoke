@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Password is correct, set session variables
             $_SESSION['loggedin'] = true;
             $_SESSION['role_id'] = $row['role_id'];
-            $_SESSION['role_code'] = $row['role_id'] == 1 ? "Administrator" : ($row['role_id'] == 2 ? 'User' : 'Customer');
+            $_SESSION['role_code'] = $row['role_id'] == 1 ? "Administrator" : ($row['role_id'] == 2 ? 'Kasir' : 'Customer');
             $_SESSION['name']  = $row['name'];
             $_SESSION['email']  = $row['email'];
             $_SESSION['username'] = $row['username'];

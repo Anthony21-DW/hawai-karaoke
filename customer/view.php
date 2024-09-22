@@ -37,13 +37,14 @@ include('dataTable.php');
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <input type="hidden" id="role-code" value="<?php echo($_SESSION['role_id']); ?>">
                    <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Customer</h1>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold text-primary">Data Customer</h6>
-                            <button class="btn btn-primary btn-md me-2" data-toggle="modal" data-target="#formAddCustomer"> <i class="fas fa-plus-circle"></i> Tambah User</button>
+                            <button class="btn btn-primary btn-md me-2" data-toggle="modal" data-target="#formAddCustomer"> <i class="fas fa-plus-circle"></i> <?php if($_SESSION['role_code'] == "Kasir") {echo "Tambah Customer";} else {"Tambah User";} ?> </button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -85,7 +86,7 @@ include('dataTable.php');
         <form id="formCreate">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah User</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><?php if($_SESSION['role_code'] == "Kasir") {echo "Tambah Customer";} else {"Tambah User";} ?></h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -113,10 +114,10 @@ include('dataTable.php');
                             <option value="" disabled selected>-- pilih role --</option>
                             <option value="1">Administrator</option>
                             <option value="2">Kasir</option>
-                            <option value="3">Customer</option>
+                            <option value="3" <?php if($_SESSION['role_code'] == "Kasir") {echo "selected";} else {"";} ?> >Customer</option>
                         </select>
                     </div>
-                    <div id="parent-for-customer" style="display: none;">
+                    <div id="parent-for-customer" style="display: <?php if($_SESSION['role_code'] == "Kasir") {echo "block";} else {"none";} ?>">
                         <div class="form-group">
                             <label for="gender">Jenis kelamin<sup class="text-danger">*</sup></label>
                             <select class="form-control" name="gender" id="gender" >
